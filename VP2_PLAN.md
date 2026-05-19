@@ -83,10 +83,11 @@ Commentit voidaan lisata jo VP2:ssa yksityiskohtasivulle:
 1. Luo app-runko ja DB-yhteysmoduuli
 2. Toteuta auth (register/login/logout)
 3. Toteuta parking_spot CRUD
-4. Toteuta listaus + yksityiskohta
+4. Toteuta listaus + yksityiskohta (hyodyntaen `examples/geo_helpers.py` staattista laattakuvaesikatselua)
 5. Toteuta haku (teksti + bbox)
 6. Lisaa comment-lomake yksityiskohtasivulle
-7. Testaa VP2-vaatimukset kasin ja paivita README
+7. Toteuta HTML/CSS-frontend ilman JavaScriptia (kurssin perusvaatimusten mukaisesti)
+8. Testaa VP2-vaatimukset kasin ja paivita README
 
 ## Hyvaksyntakriteerit VP2:lle
 

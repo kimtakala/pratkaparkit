@@ -79,35 +79,6 @@ export FLASK_ENV=development
 flask run
 ```
 
-## Versionhallinta (että pysyy kunnossa)
-
-Projektissa ei pideta versionhallinnassa valiaikaistiedostoja. Tarkista ennen commitia:
-
-```bash
-git status
-```
-
-Varmista erityisesti, etteivat seuraavat paady Git-historiaan:
-
-- venv/
-- .env
-- database.db
-- .local/
-- **pycache**/
-- .python-version
-
-Huomaa, että `requirements.txt` kuuluu versioonhallintaan, koska siihen listataan projektin Python-riippuvuudet.
-
-Tyypillinen paivitysrunko:
-
-```bash
-git add .
-git commit -m "Implement <feature>"
-git push
-```
-
-Commit-viestit kirjoitetaan englanniksi.
-
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
 Jos haluat lisätä tarkan sijainnin, avaa OpenStreetMap (https://www.openstreetmap.org), etsi sijainti ja käytä Share → Permalink tai kopioi koordinaatit (muoto `lat,lon`) ja liitä ne lomakkeeseen.
@@ -130,9 +101,3 @@ Muista asettaa `User-Agent` palvelinpuolisissa pyyntöjä varten, jos kutsut Nom
 
 - Sovellus käyttää ainoastaan Flaskia ja Pythonin standardikirjastoja (ei `requests`, ei JS-kirjastoja).
 - Tietokantaa käytetään suorin SQL-komennoin (ei ORM:ia).
-
-## Seuraavat askeleet
-
-- Täydennä `app.py` (reitit, lomakkeet, login) kurssin esimerkkien pohjalta.
-- Lisää frontend-sivut HTML/CSS:llä ilman JS:ää.
-- Lisää tarvittaessa staattinen laattakuvaesikatselu `examples/geo_helpers.py`-funktion avulla.
