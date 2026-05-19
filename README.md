@@ -12,15 +12,15 @@ Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat
 - Toissijainen tietokohde: `comment` parkkipaikkoihin liittyville huomautuksille
 - Karttanäkymä ilman JavaScriptiä: suora linkki OpenStreetMapiin ja/tai palvelinpuolinen staattinen laattakuvaesikatselu
 
-## Kehitysympariston pystytys (venv + Git)
+## Kehitysympäristön pystytys (venv + Git)
 
-Kurssiohjeen mukaan turvallinen valinta on Python 3.10. Valta uusimpia Python-ominaisuuksia kannattaa valttaa.
+Kurssiohjeen mukaan sovellus tehdään Python 3.10.x -ympäristössä. Tämä versio lukitaan projektiin tiedostolla [.python-version](.python-version), joten kehitysympäristön pitää käyttää juuri 3.10-sarjaa eikä esimerkiksi 3.11:ta.
 
 1. Kloonaa projekti ja siirry hakemistoon
 
 ```bash
-git clone <REPO_URL>
-cd TiKaWe_pratka-parkit
+git clone https://github.com/kimtakala/pratkaparkit
+cd pratkaparkit
 ```
 
 2. Varmista Python-versio
@@ -29,7 +29,7 @@ cd TiKaWe_pratka-parkit
 python3 --version
 ```
 
-Tavoite: Python 3.10.x
+Varmista, että tulos on 3.10.x. Jos koneella on useita Python-versioita, käytä nimenomaan Python 3.10:ä.
 
 3. Luo ja aktivoi virtuaaliymparisto
 
@@ -39,11 +39,13 @@ source venv/bin/activate
 python --version
 ```
 
+Jos `python --version` ei näytä 3.10.x:ää, poista venv ja luo se uudelleen oikealla Python 3.10 -tulkilla, esimerkiksi komennolla `python3.10 -m venv venv`.
+
 4. Asenna riippuvuudet
 
 ```bash
 pip install --upgrade pip
-pip install Flask
+pip install -r requirements.txt
 ```
 
 5. Alusta tietokanta
@@ -60,7 +62,7 @@ export FLASK_ENV=development
 flask run
 ```
 
-## Versionhallinta (etta pysyy kunnossa)
+## Versionhallinta (että pysyy kunnossa)
 
 Projektissa ei pideta versionhallinnassa valiaikaistiedostoja. Tarkista ennen commitia:
 
@@ -75,6 +77,9 @@ Varmista erityisesti, etteivat seuraavat paady Git-historiaan:
 - database.db
 - .local/
 - **pycache**/
+- .python-version
+
+Huomaa, että `requirements.txt` kuuluu versioonhallintaan, koska siihen listataan projektin Python-riippuvuudet.
 
 Tyypillinen paivitysrunko:
 
