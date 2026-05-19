@@ -48,7 +48,7 @@ brew install python@3.10
 **Windows:**
 Lataa ja asenna Python 3.10 asennusohjelma viralliselta sivulta [python.org/downloads/windows](https://www.python.org/downloads/windows/). Muista ruksia asennusvaiheessa "Add Python 3.10 to PATH". Windowsilla komennot jatkossa ovat tyypillisesti `python` eikä `python3.10`.
 
-3. Luo ja aktivoi virtuaaliymparisto
+3. Luo ja aktivoi virtuaaliympäristö
 
 ```bash
 python3.10 -m venv venv
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 sqlite3 database.db < sql/init_db.sql
 ```
 
-6. Kaynnista sovellus
+6. Käynnistä sovellus
 
 ```bash
 export FLASK_APP=app.py

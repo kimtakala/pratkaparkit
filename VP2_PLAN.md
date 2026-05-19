@@ -1,24 +1,24 @@
-# VP2 Plan - Pratka-parkit
+\*\*\*\*# VP2 Plan - Prätkä-parkit
 
-Tavoite: toteuttaa valipalautus 2 niin, etta sovelluksessa on toimiva minimitaso
+Tavoite: toteuttaa välipalautus 2 niin, että sovelluksessa on toimiva minimitaso
 kurssivaatimusten mukaisesti.
 
 ## Rajaus VP2:een
 
-- Paatietokohde: parking_spot (sijainti)
+- Päätietokohde: parking_spot (sijainti)
 - Toissijainen tietokohde: comment
-- Ei kayteta report-rakennetta.
+- Ei käytetä report-rakennetta.
 
-Huomio: kurssin VP2-vaatimuksissa toissijainen tietokohde ei ole viela pakollinen,
-mutta se pidetaan mukana rakenteessa valipalautus 3:a varten.
+Huomio: kurssin VP2-vaatimuksissa toissijainen tietokohde ei ole vielä pakollinen,
+mutta se pidetään mukana rakenteessa välipalautus 3:a varten.
 
 ## VP2-vaatimuskohtainen toteutussuunnitelma
 
-1. Kayttajatunnus ja kirjautuminen
+1. Käyttäjätunnus ja kirjautuminen
 
-- Rekisterointi: username + password (hashattu tallennus)
+- Rekisteröinti: username + password (hashattu tallennus)
 - Login/logout session-pohjaisesti
-- Kayttooikeustarkistus reiteille, jotka vaativat kirjautumisen
+- Käyttöoikeustarkistus reiteille, jotka vaativat kirjautumisen
 
 2. Parking spot CRUD
 
@@ -29,7 +29,7 @@ mutta se pidetaan mukana rakenteessa valipalautus 3:a varten.
 
 3. Listaus
 
-- Etusivulle lista uusimmista parking_spoteista (myos muiden)
+- Etusivulle lista uusimmista parking_spoteista (myös muiden)
 - Yksityiskohtasivu yhdelle parking_spotille
 
 4. Haku
@@ -46,7 +46,7 @@ Taulut:
 - parking_spot
 - comment
 
-Comment-taulu pidetaan yksinkertaisena:
+Comment-taulu pidetään yksinkertaisena:
 
 - id
 - parking_spot_id (FK -> parking_spot.id)
@@ -66,7 +66,7 @@ Comment-taulu pidetaan yksinkertaisena:
 - POST /spots/<id>/delete
 - GET /search
 
-Commentit voidaan lisata jo VP2:ssa yksityiskohtasivulle:
+Commentit voidaan lisätä jo VP2:ssa yksityiskohtasivulle:
 
 - POST /spots/<id>/comments/new
 
@@ -78,21 +78,21 @@ Commentit voidaan lisata jo VP2:ssa yksityiskohtasivulle:
 - Oikeustarkistus: muokkaus/poisto vain omiin kohteisiin
 - Salasanat hashattuina
 
-## Tyojarjestys
+## Työjärjestys
 
 1. Luo app-runko ja DB-yhteysmoduuli
 2. Toteuta auth (register/login/logout)
 3. Toteuta parking_spot CRUD
-4. Toteuta listaus + yksityiskohta (hyodyntaen `examples/geo_helpers.py` staattista laattakuvaesikatselua)
+4. Toteuta listaus + yksityiskohta (hyödyntäen `examples/geo_helpers.py` staattista laattakuvaesikatselua)
 5. Toteuta haku (teksti + bbox)
 6. Lisaa comment-lomake yksityiskohtasivulle
 7. Toteuta HTML/CSS-frontend ilman JavaScriptia (kurssin perusvaatimusten mukaisesti)
-8. Testaa VP2-vaatimukset kasin ja paivita README
+8. Testaa VP2-vaatimukset kasin ja päivitä README
 
-## Hyvaksyntakriteerit VP2:lle
+## Hyväksyntäkriteerit VP2:lle
 
-- Uusi kayttaja pystyy rekisteroitymaan ja kirjautumaan
-- Kirjautunut kayttaja pystyy lisaamaan, muokkaamaan ja poistamaan oman spotin
-- Kaikki kayttajat nakyvat listauksessa ja yksityiskohtasivu toimii
-- Hakutoiminto palauttaa tuloksia tekstilla tai koordinaattirajauksella
-- Sovellus kaynnistyy puhtaasta kloonista README-ohjeella
+- Uusi käyttäjä pystyy rekisteröitymään ja kirjautumaan
+- Kirjautunut käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan oman spotin
+- Kaikki käyttäjät näkyvät listauksessa ja yksityiskohtasivu toimii
+- Hakutoiminto palauttaa tuloksia tekstillä tai koordinaattirajauksella
+- Sovellus käynnistyy puhtaasta kloonista README-ohjeella
