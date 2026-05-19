@@ -30,7 +30,7 @@ Tämä dokumentti selventää, miten kurssin yleisvaatimukset soveltuvat projekt
 
 - Käytä CSRF-suojausta lomakkeissa.
 - Parametrisoidut SQL-kyselyt.
-- Validointi: lat ∈ [-90,90], lon ∈ [-180,180].
+- Validointi: lat ∈ [59.0, 70.5], lon ∈ [18.5, 32.0].
 
 ## Dokumentaatio
 

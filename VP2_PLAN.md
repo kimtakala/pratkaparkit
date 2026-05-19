@@ -74,7 +74,7 @@ Commentit voidaan lisätä jo VP2:ssa yksityiskohtasivulle:
 
 - CSRF-token kaikissa POST-lomakkeissa
 - Parametrisoidut SQL-kyselyt
-- Syotevalidointi: lat [-90, 90], lon [-180, 180]
+- Syötevalidointi (Suomen rajat): lat [59.0, 70.5], lon [18.5, 32.0]
 - Oikeustarkistus: muokkaus/poisto vain omiin kohteisiin
 - Salasanat hashattuina
 
