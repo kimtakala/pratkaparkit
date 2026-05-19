@@ -1,6 +1,6 @@
-# Moottoripyörä Parkki — Projektikohtaiset vaatimukset
+# Prätkä-parkit — Projektikohtaiset vaatimukset
 
-Tämä dokumentti selventää, miten kurssin yleisvaatimukset soveltuvat projektiin "Moottoripyörä Parkki".
+Tämä dokumentti selventää, miten kurssin yleisvaatimukset soveltuvat projektiin "Prätkä-parkit".
 
 ## Yleistä
 

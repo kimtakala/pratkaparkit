@@ -1,4 +1,4 @@
--- Init DB for Moottoripyörä Parkki
+-- Init DB for Prätkä-parkit
 
 PRAGMA foreign_keys = ON;
 

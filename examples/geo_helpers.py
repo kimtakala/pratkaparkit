@@ -36,7 +36,7 @@ def nominatim_lookup(address, email=None):
         "limit": 1,
     }
     url = base + "?" + urllib.parse.urlencode(params)
-    ua = "MoottoripyoraParkki/1.0"
+    ua = "PratkaParkit/1.0"
     if email:
         ua += f" ({email})"
     req = urllib.request.Request(url, headers={"User-Agent": ua})
