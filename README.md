@@ -12,29 +12,79 @@ Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat
 - Toissijainen tietokohde: `comment` parkkipaikkoihin liittyville huomautuksille
 - Karttanäkymä ilman JavaScriptiä: suora linkki OpenStreetMapiin ja/tai palvelinpuolinen staattinen laattakuvaesikatselu
 
-## Asennus ja käynnistys
+## Kehitysympariston pystytys (venv + Git)
 
-Varmista, että käytät Python 3.10 -ympäristöä (tai vastaavaa).
+Kurssiohjeen mukaan turvallinen valinta on Python 3.10. Valta uusimpia Python-ominaisuuksia kannattaa valttaa.
+
+1. Kloonaa projekti ja siirry hakemistoon
 
 ```bash
-python -m venv venv
+git clone <REPO_URL>
+cd TiKaWe_pratka-parkit
+```
+
+2. Varmista Python-versio
+
+```bash
+python3 --version
+```
+
+Tavoite: Python 3.10.x
+
+3. Luo ja aktivoi virtuaaliymparisto
+
+```bash
+python3 -m venv venv
 source venv/bin/activate
+python --version
+```
+
+4. Asenna riippuvuudet
+
+```bash
+pip install --upgrade pip
 pip install Flask
 ```
 
-Alusta tietokanta `sql/init_db.sql` avulla:
+5. Alusta tietokanta
 
 ```bash
 sqlite3 database.db < sql/init_db.sql
 ```
 
-Käynnistä sovellus (esimerkinomainen):
+6. Kaynnista sovellus
 
 ```bash
 export FLASK_APP=app.py
 export FLASK_ENV=development
 flask run
 ```
+
+## Versionhallinta (etta pysyy kunnossa)
+
+Projektissa ei pideta versionhallinnassa valiaikaistiedostoja. Tarkista ennen commitia:
+
+```bash
+git status
+```
+
+Varmista erityisesti, etteivat seuraavat paady Git-historiaan:
+
+- venv/
+- .env
+- database.db
+- .local/
+- **pycache**/
+
+Tyypillinen paivitysrunko:
+
+```bash
+git add .
+git commit -m "Implement <feature>"
+git push
+```
+
+Commit-viestit kirjoitetaan englanniksi.
 
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
