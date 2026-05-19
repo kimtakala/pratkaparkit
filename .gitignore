@@ -1,0 +1,20 @@
+# Python
+
+**pycache**/
+_.pyc
+_.pyo
+\*.pyd
+
+# Virtual environments
+
+venv/
+.env
+
+# Database
+
+database.db
+
+# Editor
+
+.vscode/
+\*.swp
