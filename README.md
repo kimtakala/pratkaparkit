@@ -9,7 +9,7 @@ Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat
 - Parkkipaikkojen listaus ja yksityiskohtanäkymä
 - Haku (hakusana, osoite tai bounding-box lat/lon)
 - Käyttäjäsivut: omat merkinnät ja perusstatistiikat
-- Toissijainen tietokohde: `report` tai `comment` parkkipaikkoihin liittyville huomautuksille
+- Toissijainen tietokohde: `comment` parkkipaikkoihin liittyville huomautuksille
 - Karttanäkymä ilman JavaScriptiä: suora linkki OpenStreetMapiin ja/tai palvelinpuolinen staattinen laattakuvaesikatselu
 
 ## Asennus ja käynnistys

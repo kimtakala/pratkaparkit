@@ -18,7 +18,7 @@ Tämä dokumentti selventää, miten kurssin yleisvaatimukset soveltuvat projekt
 - Haku hakusanalla tai rajaamalla koordinaattien avulla (bounding box).
 - Käyttäjäsivut näyttävät tilastoja ja käyttäjän lisäämät parkkipaikat.
 - Luokittelu (tags) tallennetaan tietokantaan ja liitetään parkkipaikkoihin.
-- Toissijainen tietokohde: `report`/`comment` parkkipaikkojen lisätiedoille.
+- Toissijainen tietokohde: `comment` parkkipaikkojen lisätiedoille.
 
 ## Kartta- ja sijaintiratkaisut ilman JavaScriptiä
 

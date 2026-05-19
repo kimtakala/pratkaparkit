@@ -22,7 +22,7 @@ CREATE TABLE parking_spot (
     FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE report (
+CREATE TABLE comment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     parking_spot_id INTEGER NOT NULL,
     author_id INTEGER NOT NULL,
