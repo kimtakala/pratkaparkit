@@ -19,27 +19,44 @@ Kurssiohjeen mukaan sovellus tehdään Python 3.10.x -ympäristössä. Tämä ve
 1. Kloonaa projekti ja siirry hakemistoon
 
 ```bash
-git clone https://github.com/kimtakala/pratkaparkit
+git clone https://github.com/kimtakala/pratkaparkit.git
 cd pratkaparkit
 ```
 
-2. Varmista Python-versio
+2. Asenna tai varmista Python 3.10
+
+Varmista, että koneeltasi löytyy nimenomaan Python 3.10. Valitse käyttöjärjestelmäsi mukainen ohje:
+
+**Ubuntu/Debian:**
 
 ```bash
-python3 --version
+sudo apt update && sudo apt install -y python3.10 python3.10-venv
 ```
 
-Varmista, että tulos on 3.10.x. Jos koneella on useita Python-versioita, käytä nimenomaan Python 3.10:ä.
+**Fedora/RHEL:**
+
+```bash
+sudo dnf install -y python3.10
+```
+
+**macOS (Homebrew):**
+
+```bash
+brew install python@3.10
+```
+
+**Windows:**
+Lataa ja asenna Python 3.10 asennusohjelma viralliselta sivulta [python.org/downloads/windows](https://www.python.org/downloads/windows/). Muista ruksia asennusvaiheessa "Add Python 3.10 to PATH". Windowsilla komennot jatkossa ovat tyypillisesti `python` eikä `python3.10`.
 
 3. Luo ja aktivoi virtuaaliymparisto
 
 ```bash
-python3 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
 python --version
 ```
 
-Jos `python --version` ei näytä 3.10.x:ää, poista venv ja luo se uudelleen oikealla Python 3.10 -tulkilla, esimerkiksi komennolla `python3.10 -m venv venv`.
+Jos `python --version` ei näytä 3.10.x:ää, poista venv ja luo se uudelleen samalla `python3.10`-komennolla.
 
 4. Asenna riippuvuudet
 
