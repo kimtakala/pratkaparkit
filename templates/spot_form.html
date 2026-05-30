@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if spot %}Muokkaa{% else %}Lisää parkkipaikka{% endif %}</h2>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <div class="form-group">
+        <label>Otsikko</label>
+        <input type="text" name="title" value="{{ spot.title if spot else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label>Kuvaus</label>
+        <textarea name="description" rows="4">{{ spot.description if spot else '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label>Leveysaste (lat) esim. 60.1699</label>
+        <input type="text" name="lat" value="{{ spot.lat if spot else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label>Pituusaste (lon) esim. 24.9384</label>
+        <input type="text" name="lon" value="{{ spot.lon if spot else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label>Osoite</label>
+        <input type="text" name="address" value="{{ spot.address if spot else '' }}">
+    </div>
+    <div class="form-group">
+        <label>Tagit (esim. asfaltti, maksullinen)</label>
+        <input type="text" name="tags" value="{{ spot.tags if spot else '' }}">
+    </div>
+    <button type="submit">Tallenna</button>
+</form>
+{% endblock %}

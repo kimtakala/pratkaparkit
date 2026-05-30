@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Haku</h2>
+<form method="GET" action="{{ url_for('search.search') }}">
+    <div class="form-group">
+        <label>Tekstihaku (otsikko, kuvaus, osoite, tagit)</label>
+        <input type="text" name="q" value="{{ query if query else '' }}">
+    </div>
+    
+    <h3>Rajaus kartalla (Bounding Box)</h3>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Min Latitude</label>
+            <input type="text" name="min_lat" value="{{ min_lat if min_lat else '' }}">
+        </div>
+        <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Max Latitude</label>
+            <input type="text" name="max_lat" value="{{ max_lat if max_lat else '' }}">
+        </div>
+        <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Min Longitude</label>
+            <input type="text" name="min_lon" value="{{ min_lon if min_lon else '' }}">
+        </div>
+        <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Max Longitude</label>
+            <input type="text" name="max_lon" value="{{ max_lon if max_lon else '' }}">
+        </div>
+    </div>
+    <button type="submit">Hae parkkipaikkoja</button>
+</form>
+
+{% if request.args %}
+<hr>
+<h3>Hakutulokset</h3>
+    {% if spots %}
+        {% for spot in spots %}
+            <div class="spot-card">
+                <h4><a href="{{ url_for('spots.spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a></h4>
+                <p>{{ spot.description }}</p>
+                <small>Lisätty: {{ spot.created_at }}</small>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Ei tuloksia hakuehdoilla.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

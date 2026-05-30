@@ -1,21 +1,24 @@
-"""Session and CSRF pseudocode helpers."""
-
+from functools import wraps
+from flask import session, redirect, url_for, abort, request, flash, url_for
+import secrets
 
 def current_user_id():
-    """Return session user id or None."""
-    pass
+    return session.get("user_id")
 
-
-def require_login():
-    """Redirect to login or abort(403) if user is not authenticated."""
-    pass
-
+def require_login(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Kirjaudu sisään ensin.", "error")
+            return redirect(url_for("auth.login"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 def generate_csrf_token():
-    """Generate and store CSRF token in session."""
-    pass
-
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_hex(32)
+    return session["csrf_token"]
 
 def verify_csrf_token(form_token):
-    """Compare submitted CSRF token with session token."""
-    pass
+    if not form_token or form_token != session.get("csrf_token"):
+        abort(403, "CSRF-virhe. Yritä uudelleen.")
