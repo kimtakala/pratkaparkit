@@ -11,18 +11,21 @@ def validate_lat_lon(lat_raw, lon_raw):
     return lat, lon, None
 
 def validate_spot_form(form):
+    errors = []
     title = form.get("title", "").strip()
     if not title:
-        return None, "Otsikko puuttuu"
+        errors.append("Otsikko puuttuu")
+
     lat, lon, err = validate_lat_lon(form.get("lat"), form.get("lon"))
     if err:
-        return None, err
-    
-    return {
+        errors.append(err)
+
+    data = {
         "title": title,
         "description": form.get("description", "").strip(),
         "lat": lat,
         "lon": lon,
         "address": form.get("address", "").strip(),
         "tags": form.get("tags", "").strip()
-    }, None
+    }
+    return data, errors

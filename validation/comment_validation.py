@@ -1,5 +1,6 @@
 def validate_comment_form(form):
+    errors = []
     text = form.get("text", "").strip()
     if not text:
-        return "Kommentti ei voi olla tyhjä"
-    return None
+        errors.append("Kommentti ei voi olla tyhjä")
+    return errors
