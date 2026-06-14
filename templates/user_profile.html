@@ -15,8 +15,9 @@
   </h4>
   <p>{{ spot.description | show_lines }}</p>
   <small>
-    Lisätty: {{ spot.created_at | helsinki_time }}
-    {% if spot.classification_names %} - Luokitukset: {{ spot.classification_names }}{% endif %}
+    Lisätty: {{ spot.created_at | helsinki_time }} {% if
+    spot.classification_names %} - Luokitukset: {{ spot.classification_names
+    }}{% endif %}
   </small>
   {% if current_user_id == user.id %}
   <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap">

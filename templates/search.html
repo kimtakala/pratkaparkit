@@ -59,8 +59,9 @@
   </h4>
   <p>{{ spot.description }}</p>
   <small>
-    Lisätty: {{ spot.created_at | helsinki_time }}
-    {% if spot.classification_names %} - Luokitukset: {{ spot.classification_names }}{% endif %}
+    Lisätty: {{ spot.created_at | helsinki_time }} {% if
+    spot.classification_names %} - Luokitukset: {{ spot.classification_names
+    }}{% endif %}
   </small>
 </div>
 {% endfor %} {% else %}

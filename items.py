@@ -24,7 +24,9 @@ def get_all_spots():
         """)
 
 
-def create_spot(owner_id, title, description, lat, lon, address, tags, classification_ids=None):
+def create_spot(
+    owner_id, title, description, lat, lon, address, tags, classification_ids=None
+):
     cursor = execute(
         "INSERT INTO parking_spot (owner_id, title, description, lat, lon, address, tags) VALUES (?, ?, ?, ?, ?, ?, ?)",
         (owner_id, title, description, lat, lon, address, tags),
@@ -59,7 +61,9 @@ def get_spot(spot_id):
     )
 
 
-def update_spot(spot_id, title, description, lat, lon, address, tags, classification_ids=None):
+def update_spot(
+    spot_id, title, description, lat, lon, address, tags, classification_ids=None
+):
     cursor = execute(
         "UPDATE parking_spot SET title=?, description=?, lat=?, lon=?, address=?, tags=? WHERE id=?",
         (title, description, lat, lon, address, tags, spot_id),
