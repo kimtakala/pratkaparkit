@@ -1,53 +1,82 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h2>{{ spot.title }}</h2>
 <p><strong>Lisääjä:</strong> {{ spot.owner_name }} ({{ spot.created_at }})</p>
 <p><strong>Osoite:</strong> {{ spot.address }}</p>
-<p><strong>Kuvaus:</strong> {{ spot.description }}</p>
+<p>{{ spot.description | show_lines }}</p>
 <p><strong>Koordinaatit:</strong> {{ spot.lat }}, {{ spot.lon }}</p>
 <p><strong>Tagit:</strong> {{ spot.tags }}</p>
 
 {% if tile_url %}
-<div style="margin: 1rem 0;">
-    <img src="{{ tile_url }}" alt="Karttalaatta" style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+<div style="margin: 1rem 0">
+  <img
+    src="{{ tile_url }}"
+    alt="Karttalaatta"
+    style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px"
+  />
+</div>
+{% endif %} {% if spot.owner_id == session.user_id %}
+<div style="margin-top: 1rem">
+  <a
+    href="{{ url_for('edit_spot', spot_id=spot.id) }}"
+    style="text-decoration: none"
+    ><button type="button" style="background: #28a745">Muokkaa</button></a
+  >
+  <form
+    action="{{ url_for('delete_spot', spot_id=spot.id) }}"
+    method="POST"
+    style="display: inline"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <button
+      type="submit"
+      onclick="return confirm('Haluatko varmasti poistaa tämän parkkipaikan?');"
+      style="background: #dc3545"
+    >
+      Poista
+    </button>
+  </form>
 </div>
 {% endif %}
 
-{% if spot.owner_id == session.user_id %}
-<div style="margin-top: 1rem;">
-    <a href="{{ url_for('spots.edit_spot', spot_id=spot.id) }}" style="text-decoration: none;"><button type="button" style="background:#28a745;">Muokkaa</button></a>
-    <form action="{{ url_for('spots.delete_spot', spot_id=spot.id) }}" method="POST" style="display:inline;">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <button type="submit" onclick="return confirm('Haluatko varmasti poistaa tämän parkkipaikan?');" style="background:#dc3545;">Poista</button>
-    </form>
-</div>
-{% endif %}
-
-<hr>
+<hr />
 
 <h3>Kommentit</h3>
 {% for comment in comments %}
-    <div style="background: #f9f9f9; padding: 1rem; margin-bottom: 1rem; border: 1px solid #eee; border-radius: 4px;">
-        <strong>{{ comment.author_name }}</strong> <small style="color: #666;">{{ comment.created_at }}</small>
-        <p style="margin-top: 0.5rem; margin-bottom: 0;">{{ comment.text }}</p>
-    </div>
-{% else %}
-    <p>Ei vielä kommentteja.</p>
-{% endfor %}
-
-{% if session.user_id %}
-<div style="margin-top: 2rem;">
-    <h4>Lisää kommentti</h4>
-    <form action="{{ url_for('spots.create_comment', spot_id=spot.id) }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <div class="form-group">
-            <textarea name="text" rows="3" required placeholder="Kirjoita kommentti tähän..."></textarea>
-        </div>
-        <button type="submit">Lähetä kommentti</button>
-    </form>
+<div
+  style="
+    background: #f9f9f9;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  "
+>
+  <strong>{{ comment.author_name }}</strong>
+  <small style="color: #666">{{ comment.created_at }}</small>
+  <p style="margin-top: 0.5rem; margin-bottom: 0">
+    {{ comment.text | show_lines }}
+  </p>
 </div>
 {% else %}
-<p style="margin-top: 2rem;"><a href="{{ url_for('auth.login') }}">Kirjaudu sisään</a> lisätäksesi kommentin.</p>
-{% endif %}
-
-{% endblock %}
+<p>Ei vielä kommentteja.</p>
+{% endfor %} {% if session.user_id %}
+<div style="margin-top: 2rem">
+  <h4>Lisää kommentti</h4>
+  <form action="{{ url_for('create_comment', spot_id=spot.id) }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <div class="form-group">
+      <textarea
+        name="text"
+        rows="3"
+        required
+        placeholder="Kirjoita kommentti tähän..."
+      ></textarea>
+    </div>
+    <button type="submit">Lähetä kommentti</button>
+  </form>
+</div>
+{% else %}
+<p style="margin-top: 2rem">
+  <a href="{{ url_for('login') }}">Kirjaudu sisään</a> lisätäksesi kommentin.
+</p>
+{% endif %} {% endblock %}

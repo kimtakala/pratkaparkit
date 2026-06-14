@@ -1,14 +1,67 @@
-def validate_lat_lon(lat_raw, lon_raw):
+import re
+
+_DMS_PATTERN = re.compile(
+    r"^\s*(?P<degrees>\d+(?:\.\d+)?)\s*(?:°|deg)?\s*"
+    r"(?P<minutes>\d+(?:\.\d+)?)?\s*(?:'|′|’|m)?\s*"
+    r"(?P<seconds>\d+(?:\.\d+)?)?\s*(?:\"|″|”|s)?\s*"
+    r"(?P<hemisphere>[NSEW])?\s*$",
+    re.IGNORECASE,
+)
+
+
+def _parse_coordinate(raw_value, axis):
+    if raw_value is None:
+        return None, "Koordinaatti puuttuu."
+
+    text = str(raw_value).strip()
+    if not text:
+        return None, "Koordinaatti puuttuu."
+
     try:
-        lat = float(lat_raw)
-        lon = float(lon_raw)
+        return float(text), None
     except ValueError:
-        return None, None, "Koordinaatit eivät ole numeroita."
+        pass
+
+    match = _DMS_PATTERN.match(text)
+    if not match:
+        return None, "Koordinaatti ei ole kelvollisessa muodossa."
+
+    degrees = float(match.group("degrees"))
+    minutes = float(match.group("minutes") or 0)
+    seconds = float(match.group("seconds") or 0)
+    hemisphere = (match.group("hemisphere") or "").upper()
+
+    if minutes >= 60 or seconds >= 60:
+        return None, "Koordinaatti ei ole kelvollisessa muodossa."
+
+    decimal = degrees + (minutes / 60) + (seconds / 3600)
+
+    if hemisphere in {"S", "W"}:
+        decimal = -decimal
+
+    if hemisphere and axis == "lat" and hemisphere not in {"N", "S"}:
+        return None, "Leveysasteessa pitää käyttää N tai S -kirjainta."
+    if hemisphere and axis == "lon" and hemisphere not in {"E", "W"}:
+        return None, "Pituusasteessa pitää käyttää E tai W -kirjainta."
+
+    return decimal, None
+
+
+def validate_lat_lon(lat_raw, lon_raw):
+    lat, lat_err = _parse_coordinate(lat_raw, "lat")
+    if lat_err:
+        return None, None, lat_err
+
+    lon, lon_err = _parse_coordinate(lon_raw, "lon")
+    if lon_err:
+        return None, None, lon_err
+
     if not (59.0 <= lat <= 70.5):
         return None, None, "Vain Suomen koordinaatit sallittu (lat 59.0 ... 70.5)."
     if not (18.5 <= lon <= 32.0):
         return None, None, "Vain Suomen koordinaatit sallittu (lon 18.5 ... 32.0)."
     return lat, lon, None
+
 
 def validate_spot_form(form):
     errors = []
@@ -26,6 +79,6 @@ def validate_spot_form(form):
         "lat": lat,
         "lon": lon,
         "address": form.get("address", "").strip(),
-        "tags": form.get("tags", "").strip()
+        "tags": form.get("tags", "").strip(),
     }
     return data, errors

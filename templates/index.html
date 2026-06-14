@@ -1,13 +1,13 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h2>Uusimmat parkkipaikat</h2>
 {% for spot in spots %}
-    <div class="spot-card">
-        <h3><a href="{{ url_for('spots.spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a></h3>
-        <p>{{ spot.description }}</p>
-        <small>Lisätty: {{ spot.created_at }} - Lisääjä: {{ spot.owner_name }}</small>
-    </div>
+<div class="spot-card">
+  <h3>
+    <a href="{{ url_for('spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a>
+  </h3>
+  <p>{{ spot.description | show_lines }}</p>
+  <small>Lisätty: {{ spot.created_at }} - Lisääjä: {{ spot.owner_name }}</small>
+</div>
 {% else %}
-    <p>Ei parkkipaikkoja vielä listattuna.</p>
-{% endfor %}
-{% endblock %}
+<p>Ei parkkipaikkoja vielä listattuna.</p>
+{% endfor %} {% endblock %}
