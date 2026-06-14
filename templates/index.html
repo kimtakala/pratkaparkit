@@ -6,7 +6,7 @@
     <a href="{{ url_for('spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a>
   </h3>
   <p>{{ spot.description | show_lines }}</p>
-  <small>Lisätty: {{ spot.created_at }} - Lisääjä: {{ spot.owner_name }}</small>
+  <small>Lisätty: {{ spot.created_at | helsinki_time }} - Lisääjä: {{ spot.owner_name }}</small>
 </div>
 {% else %}
 <p>Ei parkkipaikkoja vielä listattuna.</p>

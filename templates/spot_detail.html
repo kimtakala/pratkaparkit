@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <h2>{{ spot.title }}</h2>
-<p><strong>Lisääjä:</strong> {{ spot.owner_name }} ({{ spot.created_at }})</p>
+<p><strong>Lisääjä:</strong> {{ spot.owner_name }} ({{ spot.created_at | helsinki_time }})</p>
 <p><strong>Osoite:</strong> {{ spot.address }}</p>
 <p>{{ spot.description | show_lines }}</p>
 <p><strong>Koordinaatit:</strong> {{ spot.lat }}, {{ spot.lon }}</p>
@@ -52,7 +52,7 @@
   "
 >
   <strong>{{ comment.author_name }}</strong>
-  <small style="color: #666">{{ comment.created_at }}</small>
+  <small style="color: #666">{{ comment.created_at | helsinki_time }}</small>
   <p style="margin-top: 0.5rem; margin-bottom: 0">
     {{ comment.text | show_lines }}
   </p>

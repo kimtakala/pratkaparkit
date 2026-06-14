@@ -14,7 +14,7 @@
     <a href="{{ url_for('spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a>
   </h4>
   <p>{{ spot.description | show_lines }}</p>
-  <small>Lisätty: {{ spot.created_at }}</small>
+  <small>Lisätty: {{ spot.created_at | helsinki_time }}</small>
   {% if current_user_id == user.id %}
   <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap">
     <a href="{{ url_for('edit_spot', spot_id=spot.id) }}"

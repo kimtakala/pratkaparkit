@@ -27,6 +27,8 @@ from validation.spot_validation import validate_spot_form
 from validation.comment_validation import validate_comment_form
 import examples.geo_helpers as geo_helpers
 from markupsafe import Markup, escape
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config.SECRET_KEY
@@ -39,6 +41,21 @@ db.init_app(app)
 def show_lines(content):
     content = str(escape(content))
     return Markup(content.replace("\n", "<br />"))
+
+
+@app.template_filter()
+def helsinki_time(value):
+    if value is None or value == "":
+        return ""
+
+    if isinstance(value, str):
+        value = datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+
+    local_time = value.astimezone(ZoneInfo("Europe/Helsinki"))
+    return local_time.strftime("%d.%m.%Y %H:%M")
 
 
 @app.route("/", methods=["GET"])

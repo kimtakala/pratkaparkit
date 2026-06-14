@@ -58,7 +58,7 @@
     <a href="{{ url_for('spot_detail', spot_id=spot.id) }}">{{ spot.title }}</a>
   </h4>
   <p>{{ spot.description }}</p>
-  <small>Lisätty: {{ spot.created_at }}</small>
+  <small>Lisätty: {{ spot.created_at | helsinki_time }}</small>
 </div>
 {% endfor %} {% else %}
 <p>Ei tuloksia hakuehdoilla.</p>
