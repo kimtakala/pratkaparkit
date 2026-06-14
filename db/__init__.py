@@ -2,7 +2,6 @@ from pathlib import Path
 import sqlite3
 from flask import g, current_app
 
-
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "sql" / "init_db.sql"
 
 
@@ -48,4 +47,3 @@ def init_app(app):
         db = g.pop("db", None)
         if db is not None:
             db.close()
-
