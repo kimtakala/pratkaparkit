@@ -1,9 +1,21 @@
 {% extends "base.html" %} {% block content %}
 <h2>{{ spot.title }}</h2>
-<p><strong>Lisääjä:</strong> {{ spot.owner_name }} ({{ spot.created_at | helsinki_time }})</p>
+<p>
+  <strong>Lisääjä:</strong> {{ spot.owner_name }} ({{ spot.created_at |
+  helsinki_time }})
+</p>
 <p><strong>Osoite:</strong> {{ spot.address }}</p>
 <p>{{ spot.description | show_lines }}</p>
 <p><strong>Koordinaatit:</strong> {{ spot.lat }}, {{ spot.lon }}</p>
+<p>
+  <a
+    href="https://www.openstreetmap.org/?mlat={{ spot.lat }}&mlon={{ spot.lon }}#map=18/{{ spot.lat }}/{{ spot.lon }}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Avaa sijainti kartalla
+  </a>
+</p>
 <p><strong>Tagit:</strong> {{ spot.tags }}</p>
 
 {% if tile_url %}
