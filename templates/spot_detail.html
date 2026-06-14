@@ -16,7 +16,7 @@
     Avaa sijainti kartalla
   </a>
 </p>
-<p><strong>Tagit:</strong> {{ spot.tags }}</p>
+<p><strong>Luokitukset:</strong> {{ spot.classification_names if spot.classification_names else 'Ei luokituksia' }}</p>
 
 {% if tile_url %}
 <div style="margin: 1rem 0">

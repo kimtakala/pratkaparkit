@@ -13,4 +13,7 @@
 </div>
 {% else %}
 <p>Ei parkkipaikkoja vielä listattuna.</p>
-{% endfor %} {% endblock %}
+    <small>
+      Lisätty: {{ spot.created_at | helsinki_time }} - Lisääjä: {{ spot.owner_name }}
+      {% if spot.classification_names %} - Luokitukset: {{ spot.classification_names }}{% endif %}
+    </small>

@@ -22,6 +22,27 @@ CREATE TABLE parking_spot (
     FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE classifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE item_classifications (
+    item_id INTEGER NOT NULL,
+    classification_id INTEGER NOT NULL,
+    PRIMARY KEY (item_id, classification_id),
+    FOREIGN KEY(item_id) REFERENCES parking_spot(id) ON DELETE CASCADE,
+    FOREIGN KEY(classification_id) REFERENCES classifications(id) ON DELETE CASCADE
+);
+
+INSERT INTO classifications (name) VALUES
+    ('Asfaltti'),
+    ('Sorapinta'),
+    ('Maksuton'),
+    ('Maksullinen'),
+    ('Katettu'),
+    ('Lämmitetty');
+
 CREATE TABLE comment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     parking_spot_id INTEGER NOT NULL,

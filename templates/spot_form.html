@@ -57,13 +57,20 @@
     />
   </div>
   <div class="form-group">
-    <label for="tags">Tagit</label>
-    <input
-      type="text"
-      id="tags"
-      name="tags"
-      value="{{ form_data.get('tags', spot.tags if spot else '') if form_data else (spot.tags if spot else '') }}"
-    />
+    <label>Luokitukset</label>
+    <div class="classification-grid">
+      {% for classification in classifications %}
+      <label class="classification-option">
+        <input
+          type="checkbox"
+          name="classifications"
+          value="{{ classification.id }}"
+          {% if classification.id in selected_classification_ids %}checked{% endif %}
+        />
+        <span>{{ classification.name }}</span>
+      </label>
+      {% endfor %}
+    </div>
   </div>
   <button type="submit">Tallenna</button>
 </form>

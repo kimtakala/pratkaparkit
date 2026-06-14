@@ -143,9 +143,21 @@ def create_spot():
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
         data, err = validate_spot_form(request.form)
+        selected_classification_ids = [
+            int(classification_id)
+            for classification_id in request.form.getlist("classifications")
+            if classification_id.isdigit()
+        ]
         if err:
-            flash(err, "error")
-            return render_template("spot_form.html", csrf_token=csrf_token, spot=None)
+            return render_template(
+                "spot_form.html",
+                csrf_token=csrf_token,
+                spot=None,
+                errors=[err],
+                form_data=request.form.to_dict(),
+                classifications=items.get_classifications(),
+                selected_classification_ids=selected_classification_ids,
+            )
 
         items.create_spot(
             current_user_id(),
@@ -155,11 +167,18 @@ def create_spot():
             data["lon"],
             data["address"],
             data["tags"],
+            selected_classification_ids,
         )
         flash("Parkkipaikka lisätty.", "success")
         return redirect(url_for("index"))
 
-    return render_template("spot_form.html", csrf_token=csrf_token, spot=None)
+    return render_template(
+        "spot_form.html",
+        csrf_token=csrf_token,
+        spot=None,
+        classifications=items.get_classifications(),
+        selected_classification_ids=[],
+    )
 
 
 @app.route("/spots/<int:spot_id>", methods=["GET"])
@@ -200,9 +219,21 @@ def edit_spot(spot_id):
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
         data, err = validate_spot_form(request.form)
+        selected_classification_ids = [
+            int(classification_id)
+            for classification_id in request.form.getlist("classifications")
+            if classification_id.isdigit()
+        ]
         if err:
-            flash(err, "error")
-            return render_template("spot_form.html", csrf_token=csrf_token, spot=spot)
+            return render_template(
+                "spot_form.html",
+                csrf_token=csrf_token,
+                spot=spot,
+                errors=[err],
+                form_data=request.form.to_dict(),
+                classifications=items.get_classifications(),
+                selected_classification_ids=selected_classification_ids,
+            )
 
         items.update_spot(
             spot_id,
@@ -212,11 +243,18 @@ def edit_spot(spot_id):
             data["lon"],
             data["address"],
             data["tags"],
+            selected_classification_ids,
         )
         flash("Päivitetty.", "success")
         return redirect(url_for("spot_detail", spot_id=spot_id))
 
-    return render_template("spot_form.html", csrf_token=csrf_token, spot=spot)
+    return render_template(
+        "spot_form.html",
+        csrf_token=csrf_token,
+        spot=spot,
+        classifications=items.get_classifications(),
+        selected_classification_ids=items.get_item_classification_ids(spot_id),
+    )
 
 
 @app.route("/spots/<int:spot_id>/delete", methods=["POST"])
@@ -267,10 +305,14 @@ def search():
             s.address,
             s.tags,
             s.created_at,
-            u.username AS owner_name
+            u.username AS owner_name,
+            COALESCE(GROUP_CONCAT(c.name, ', '), '') AS classification_names
         FROM parking_spot s
         JOIN users u ON s.owner_id = u.id
+        LEFT JOIN item_classifications ic ON s.id = ic.item_id
+        LEFT JOIN classifications c ON ic.classification_id = c.id
         WHERE 1=1
+        GROUP BY s.id
     """
     params = []
 
