@@ -239,7 +239,22 @@ def search():
     max_lon = request.args.get("max_lon", "").strip()
     bbox_error = None
 
-    sql = "SELECT s.*, u.username as owner_name FROM parking_spot s JOIN users u ON s.owner_id = u.id WHERE 1=1"
+    sql = """
+        SELECT
+            s.id,
+            s.owner_id,
+            s.title,
+            s.description,
+            s.lat,
+            s.lon,
+            s.address,
+            s.tags,
+            s.created_at,
+            u.username AS owner_name
+        FROM parking_spot s
+        JOIN users u ON s.owner_id = u.id
+        WHERE 1=1
+    """
     params = []
 
     if query:
