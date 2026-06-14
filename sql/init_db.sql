@@ -2,14 +2,14 @@
 
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE parking_spot (
+CREATE TABLE IF NOT EXISTS parking_spot (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner_id INTEGER NOT NULL,
     title TEXT,
@@ -22,12 +22,12 @@ CREATE TABLE parking_spot (
     FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE classifications (
+CREATE TABLE IF NOT EXISTS classifications (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE item_classifications (
+CREATE TABLE IF NOT EXISTS item_classifications (
     item_id INTEGER NOT NULL,
     classification_id INTEGER NOT NULL,
     PRIMARY KEY (item_id, classification_id),
@@ -35,7 +35,7 @@ CREATE TABLE item_classifications (
     FOREIGN KEY(classification_id) REFERENCES classifications(id) ON DELETE CASCADE
 );
 
-INSERT INTO classifications (name) VALUES
+INSERT OR IGNORE INTO classifications (name) VALUES
     ('Asfaltti'),
     ('Sorapinta'),
     ('Maksuton'),
@@ -43,7 +43,7 @@ INSERT INTO classifications (name) VALUES
     ('Katettu'),
     ('Lämmitetty');
 
-CREATE TABLE comment (
+CREATE TABLE IF NOT EXISTS comment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     parking_spot_id INTEGER NOT NULL,
     author_id INTEGER NOT NULL,
