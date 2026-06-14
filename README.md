@@ -14,7 +14,7 @@ Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat
 
 ## Kehitysympäristön pystytys (venv + Git)
 
-Kurssiohjeen mukaan sovellus tehdään Python 3.10.x -ympäristössä. Tämä versio lukitaan projektiin tiedostolla [.python-version](.python-version), joten kehitysympäristön pitää käyttää juuri 3.10-sarjaa eikä esimerkiksi 3.11:ta.
+Kurssiohjeen mukaan sovellus tehdään Python 3.10 tai uudempi -ympäristössä. Projektissa käytetään virtuaaliympäristöä, eikä sovellus vaadi muita Python-kirjastoja kuin ne, jotka löytyvät `requirements.txt`-tiedostosta.
 
 1. Kloonaa projekti ja siirry hakemistoon
 
@@ -23,9 +23,9 @@ git clone https://github.com/kimtakala/pratkaparkit.git
 cd pratkaparkit
 ```
 
-2. Asenna tai varmista Python 3.10
+2. Asenna tai varmista Python 3.10 tai uudempi
 
-Varmista, että koneeltasi löytyy nimenomaan Python 3.10. Valitse käyttöjärjestelmäsi mukainen ohje:
+Varmista, että koneeltasi löytyy Python 3.10 tai uudempi. Valitse käyttöjärjestelmäsi mukainen ohje:
 
 **Ubuntu/Debian:**
 
@@ -51,12 +51,12 @@ Lataa ja asenna Python 3.10 asennusohjelma viralliselta sivulta [python.org/down
 3. Luo ja aktivoi virtuaaliympäristö
 
 ```bash
-python3.10 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 python --version
 ```
 
-Jos `python --version` ei näytä 3.10.x:ää, poista venv ja luo se uudelleen samalla `python3.10`-komennolla.
+Jos `python --version` ei näytä vähintään 3.10.x:ää, poista venv ja luo se uudelleen oikealla Python-komennolla.
 
 4. Asenna riippuvuudet
 
@@ -74,10 +74,40 @@ sqlite3 database.db < sql/init_db.sql
 6. Käynnistä sovellus
 
 ```bash
+python app.py
+```
+
+Jos haluat käyttää Flaskin komentoa, aseta ensin `FLASK_APP=app.py`.
+
+```bash
 export FLASK_APP=app.py
-export FLASK_ENV=development
 flask run
 ```
+
+## Sovelluksen rakenne
+
+- `app.py`: kaikki reitit ja sovelluksen alustaminen
+- `db/__init__.py`: tietokanta-apufunktiot
+- `users.py`, `items.py`, `comments.py`: liiketoimintalogiikka
+- `validation/`: lomakevalidoinnit
+- `templates/`: Jinja2-sivupohjat
+- `static/main.css`: oma responsiivinen tyylitiedosto
+- `sql/init_db.sql`: tietokannan alustus
+
+## Testaus ja tarkistus
+
+Tätä hetkeä varten automaattiset testit eivät ole vielä valmiit. Tee ainakin nämä tarkistukset ennen palautusta:
+
+1. Käynnistä sovellus.
+2. Rekisteröi käyttäjä.
+3. Kirjaudu sisään.
+4. Lisää parkkipaikka.
+5. Avaa parkkipaikan yksityiskohta.
+6. Lisää kommentti.
+7. Kokeile hakua ja bounding-box-hakua.
+8. Avaa käyttäjäsivu.
+
+Kun testit on lisätty myöhemmin, ne ajetaan erillisellä `pytest`-komennolla.
 
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
