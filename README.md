@@ -1,6 +1,6 @@
 # Prätkä-parkit
 
-Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat lisätä ja löytää moottoripyörien parkkipaikkoja Suomessa. Sovellus noudattaa kurssin vaatimuksia: se on toteutettu Pythonilla ja Flaskilla, käyttää SQLite-tietokantaa, eikä se vaadi JavaScriptiä tai muita ulkopuolisia Python-kirjastoja.
+Prätkä-parkit on Flaskilla ja SQLitellä toteutettu web-sovellus moottoripyörien parkkipaikkojen tallentamiseen ja etsimiseen Suomessa. Sovellus noudattaa kurssin vaatimuksia: käyttöliittymä on toteutettu HTML- ja CSS-sivuilla, JavaScriptiä ei käytetä, eikä sovellus tarvitse Flaskin lisäksi muita asennettavia Python-kirjastoja.
 
 ## Keskeiset toiminnot
 
@@ -9,12 +9,13 @@ Prätkä-parkit on yksinkertainen web-sovellus, jonka avulla käyttäjät voivat
 - Parkkipaikkojen listaus ja yksityiskohtanäkymä
 - Haku (hakusana, osoite tai bounding-box lat/lon)
 - Käyttäjäsivut: omat merkinnät ja perusstatistiikat
-- Toissijainen tietokohde: `comment` parkkipaikkoihin liittyville huomautuksille
-- Karttanäkymä ilman JavaScriptiä: suora linkki OpenStreetMapiin ja/tai palvelinpuolinen staattinen laattakuvaesikatselu
+- Parkkipaikkojen luokittelu usealla luokalla
+- Toissijainen tietokohde: kommentit parkkipaikkoihin liittyville huomautuksille
+- Karttalinkki ja palvelinpuolinen staattinen laattakuvaesikatselu ilman JavaScriptiä
 
-## Kehitysympäristön pystytys (venv + Git)
+## Asennus
 
-Kurssiohjeen mukaan sovellus tehdään Python 3.10 tai uudempi -ympäristössä. Projektissa käytetään virtuaaliympäristöä, eikä sovellus vaadi muita Python-kirjastoja kuin ne, jotka löytyvät `requirements.txt`-tiedostosta.
+Sovellus toimii Python 3.10:ssa tai uudemmassa. Suositeltu tapa on käyttää virtuaaliympäristöä.
 
 1. Kloonaa projekti ja siirry hakemistoon
 
@@ -23,9 +24,9 @@ git clone https://github.com/kimtakala/pratkaparkit.git
 cd pratkaparkit
 ```
 
-2. Asenna tai varmista Python 3.10 tai uudempi
+2. Varmista Python 3.10 tai uudempi
 
-Varmista, että koneeltasi löytyy Python 3.10 tai uudempi. Valitse käyttöjärjestelmäsi mukainen ohje:
+Varmista, että käytössä on Python 3.10 tai uudempi. Valitse käyttöjärjestelmäsi mukainen ohje:
 
 **Ubuntu/Debian:**
 
@@ -56,7 +57,7 @@ source .venv/bin/activate
 python --version
 ```
 
-Jos `python --version` ei näytä vähintään 3.10.x:ää, poista venv ja luo se uudelleen oikealla Python-komennolla.
+Jos `python --version` ei näytä vähintään versiota 3.10, luo virtuaaliympäristö uudelleen oikealla Python-komennolla.
 
 4. Asenna riippuvuudet
 
@@ -86,7 +87,7 @@ flask run
 
 ## Sovelluksen rakenne
 
-- `app.py`: kaikki reitit ja sovelluksen alustaminen
+- `app.py`: kaikki reitit, template-filtterit ja sovelluksen alustaminen
 - `db/__init__.py`: tietokanta-apufunktiot
 - `users.py`, `items.py`, `comments.py`: liiketoimintalogiikka
 - `validation/`: lomakevalidoinnit
@@ -102,6 +103,10 @@ Automatisoidut testit löytyvät hakemistosta `tests/`. Ne voi ajaa komennolla:
 python -m unittest discover -s tests
 ```
 
+Testit kattavat kirjautumisen, validointivirheet, parkkipaikan luonnin, kommentoinnin, haun ja käyttäjäsivun peruspolut.
+
+Sovelluksen lopullinen tila on testattu myös Pylintillä, ja raportti löytyy tiedostosta `PYLINT_REPORT.md`.
+
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
 Jos haluat lisätä tarkan sijainnin, avaa OpenStreetMap (https://www.openstreetmap.org), etsi sijainti ja käytä Share → Permalink tai kopioi koordinaatit (muoto `lat,lon`) ja liitä ne lomakkeeseen.
@@ -112,7 +117,7 @@ Esimerkki OSM-linkistä, joka avaa koordinaatin:
 https://www.openstreetmap.org/?mlat=60.1695&mlon=24.9354#map=18/60.1695/24.9354
 ```
 
-Voit myös liittää koordinaatit käsin ja napsauttaa "Näytä esikatselu" nähdäksesi palvelinpuolisen staattisen laattakuvan (ei interaktiota).
+Voit myös liittää koordinaatit käsin ja käyttää karttaesikatselua nähdäksesi palvelinpuolisen staattisen laattakuvan (ei interaktiota).
 
 ## OpenStreetMap ja attribuutio
 
