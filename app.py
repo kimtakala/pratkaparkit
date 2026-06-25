@@ -173,18 +173,18 @@ def create_spot():
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
-        data, err = validate_spot_form(request.form)
+        data, errors = validate_spot_form(request.form)
         selected_classification_ids = [
             int(classification_id)
             for classification_id in request.form.getlist("classifications")
             if classification_id.isdigit()
         ]
-        if err:
+        if errors:
             return render_template(
                 "spot_form.html",
                 csrf_token=csrf_token,
                 spot=None,
-                errors=[err],
+                errors=errors,
                 form_data=request.form.to_dict(),
                 classifications=items.get_classifications(),
                 selected_classification_ids=selected_classification_ids,
@@ -249,18 +249,18 @@ def edit_spot(spot_id):
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
-        data, err = validate_spot_form(request.form)
+        data, errors = validate_spot_form(request.form)
         selected_classification_ids = [
             int(classification_id)
             for classification_id in request.form.getlist("classifications")
             if classification_id.isdigit()
         ]
-        if err:
+        if errors:
             return render_template(
                 "spot_form.html",
                 csrf_token=csrf_token,
                 spot=spot,
-                errors=[err],
+                errors=errors,
                 form_data=request.form.to_dict(),
                 classifications=items.get_classifications(),
                 selected_classification_ids=selected_classification_ids,
