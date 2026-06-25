@@ -96,7 +96,13 @@ flask run
 
 ## Testaus ja tarkistus
 
-Tätä hetkeä varten automaattiset testit eivät ole vielä valmiit. Tee ainakin nämä tarkistukset ennen palautusta:
+Automatisoidut testit löytyvät hakemistosta `tests/`. Ne voi ajaa komennolla:
+
+```bash
+python -m unittest discover -s tests
+```
+
+Tee lisäksi nämä manuaaliset tarkistukset ennen palautusta:
 
 1. Käynnistä sovellus.
 2. Rekisteröi käyttäjä.
@@ -106,8 +112,6 @@ Tätä hetkeä varten automaattiset testit eivät ole vielä valmiit. Tee ainaki
 6. Lisää kommentti.
 7. Kokeile hakua ja bounding-box-hakua.
 8. Avaa käyttäjäsivu.
-
-Kun testit on lisätty myöhemmin, ne ajetaan erillisellä `pytest`-komennolla.
 
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
