@@ -102,17 +102,6 @@ Automatisoidut testit löytyvät hakemistosta `tests/`. Ne voi ajaa komennolla:
 python -m unittest discover -s tests
 ```
 
-Tee lisäksi nämä manuaaliset tarkistukset ennen palautusta:
-
-1. Käynnistä sovellus.
-2. Rekisteröi käyttäjä.
-3. Kirjaudu sisään.
-4. Lisää parkkipaikka.
-5. Avaa parkkipaikan yksityiskohta.
-6. Lisää kommentti.
-7. Kokeile hakua ja bounding-box-hakua.
-8. Avaa käyttäjäsivu.
-
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
 Jos haluat lisätä tarkan sijainnin, avaa OpenStreetMap (https://www.openstreetmap.org), etsi sijainti ja käytä Share → Permalink tai kopioi koordinaatit (muoto `lat,lon`) ja liitä ne lomakkeeseen.
