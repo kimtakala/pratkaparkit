@@ -39,11 +39,11 @@ def init_schema():
 
 
 def init_app(app):
-    with app.app_context():
-        init_schema()
-
     @app.teardown_appcontext
     def close_db(e=None):
         db = g.pop("db", None)
         if db is not None:
             db.close()
+
+    with app.app_context():
+        init_schema()
