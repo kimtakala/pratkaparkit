@@ -37,4 +37,16 @@
 </div>
 {% endfor %} {% else %}
 <p>Ei vielä lisättyjä parkkipaikkoja.</p>
+{% endif %} {% if has_prev or has_next %}
+<div style="display: flex; gap: 1rem; margin-top: 1.5rem">
+  {% if has_prev %}
+  <a href="{{ url_for('user_profile', user_id=user.id, page=page - 1) }}"
+    >Edellinen sivu</a
+  >
+  {% endif %} {% if has_next %}
+  <a href="{{ url_for('user_profile', user_id=user.id, page=page + 1) }}"
+    >Seuraava sivu</a
+  >
+  {% endif %}
+</div>
 {% endif %} {% endblock %}

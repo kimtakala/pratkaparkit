@@ -1,8 +1,8 @@
 from db import query_all, query_one, execute
 
 
-def get_all_spots():
-    return query_all("""
+def get_all_spots(limit=None, offset=0):
+    sql = """
         SELECT
             s.id,
             s.owner_id,
@@ -21,7 +21,12 @@ def get_all_spots():
         LEFT JOIN classifications c ON ic.classification_id = c.id
         GROUP BY s.id
         ORDER BY s.created_at DESC
-        """)
+        """
+    params = []
+    if limit is not None:
+        sql += " LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
+    return query_all(sql, params)
 
 
 def create_spot(

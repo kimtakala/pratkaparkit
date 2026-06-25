@@ -96,8 +96,17 @@ def _last_sunday(year, month):
 
 @app.route("/", methods=["GET"])
 def index():
-    spots = items.get_all_spots()
-    return render_template("index.html", spots=spots)
+    page = request.args.get("page", default=1, type=int) or 1
+    page_size = 5
+    offset = (page - 1) * page_size
+    spots = items.get_all_spots(limit=page_size + 1, offset=offset)
+    return render_template(
+        "index.html",
+        spots=spots[:page_size],
+        page=page,
+        has_prev=page > 1,
+        has_next=len(spots) > page_size,
+    )
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -138,9 +147,7 @@ def login():
 
         user = users.get_user_by_username(request.form.get("username"))
         password = request.form.get("password", "")
-        if not user or not check_password_hash(
-            user["password"], password
-        ):
+        if not user or not check_password_hash(user["password"], password):
             errors.append("Väärä käyttäjätunnus tai salasana.")
 
         if errors:
@@ -392,12 +399,18 @@ def user_profile(user_id):
     user = users.get_user_stats(user_id)
     if not user:
         abort(404)
-    user_items = users.get_user_items(user_id)
+    page = request.args.get("page", default=1, type=int) or 1
+    page_size = 5
+    offset = (page - 1) * page_size
+    user_items = users.get_user_items(user_id, limit=page_size + 1, offset=offset)
     return render_template(
         "user_profile.html",
         user=user,
-        items=user_items,
+        items=user_items[:page_size],
         current_user_id=current_user_id(),
+        page=page,
+        has_prev=page > 1,
+        has_next=len(user_items) > page_size,
     )
 
 

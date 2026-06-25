@@ -34,9 +34,8 @@ def get_user_stats(user_id):
     )
 
 
-def get_user_items(user_id):
-    return query_all(
-        """
+def get_user_items(user_id, limit=None, offset=0):
+    sql = """
         SELECT
             id,
             owner_id,
@@ -50,6 +49,9 @@ def get_user_items(user_id):
         FROM parking_spot
         WHERE owner_id = ?
         ORDER BY created_at DESC
-        """,
-        (user_id,),
-    )
+        """
+    params = [user_id]
+    if limit is not None:
+        sql += " LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
+    return query_all(sql, params)

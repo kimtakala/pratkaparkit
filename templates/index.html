@@ -13,5 +13,12 @@
 </div>
 {% else %}
 <p>Ei parkkipaikkoja vielä listattuna.</p>
-{% endfor %}
-{% endblock %}
+{% endfor %} {% if has_prev or has_next %}
+<div style="display: flex; gap: 1rem; margin-top: 1.5rem">
+  {% if has_prev %}
+  <a href="{{ url_for('index', page=page - 1) }}">Edellinen sivu</a>
+  {% endif %} {% if has_next %}
+  <a href="{{ url_for('index', page=page + 1) }}">Seuraava sivu</a>
+  {% endif %}
+</div>
+{% endif %} {% endblock %}
