@@ -69,8 +69,12 @@ def _is_helsinki_summer_time(value):
     value_utc = value.astimezone(timezone.utc)
     year = value_utc.year
 
-    dst_start = _last_sunday(year, 3).replace(hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
-    dst_end = _last_sunday(year, 10).replace(hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+    dst_start = _last_sunday(year, 3).replace(
+        hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc
+    )
+    dst_end = _last_sunday(year, 10).replace(
+        hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc
+    )
 
     return dst_start <= value_utc < dst_end
 
@@ -101,10 +105,7 @@ def register():
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
-        errors = []
-        err = validate_register_form(request.form)
-        if err:
-            errors.append(err)
+        errors = validate_register_form(request.form)
 
         username = request.form["username"]
         password = request.form["password"]
@@ -133,14 +134,12 @@ def login():
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
-        errors = []
-        err = validate_login_form(request.form)
-        if err:
-            errors.append(err)
+        errors = validate_login_form(request.form)
 
         user = users.get_user_by_username(request.form.get("username"))
+        password = request.form.get("password", "")
         if not user or not check_password_hash(
-            user["password"], request.form.get("password")
+            user["password"], password
         ):
             errors.append("Väärä käyttäjätunnus tai salasana.")
 
@@ -308,9 +307,10 @@ def delete_spot(spot_id):
 @require_login
 def create_comment(spot_id):
     verify_csrf_token(request.form.get("csrf_token"))
-    err = validate_comment_form(request.form)
-    if err:
-        flash(err, "error")
+    errors = validate_comment_form(request.form)
+    if errors:
+        for error in errors:
+            flash(error, "error")
     else:
         comments.add_comment(spot_id, current_user_id(), request.form["text"])
         flash("Kommentti lisätty.", "success")
