@@ -27,8 +27,8 @@ from validation.spot_validation import validate_spot_form
 from validation.comment_validation import validate_comment_form
 import examples.geo_helpers as geo_helpers
 from markupsafe import Markup, escape
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone, timedelta
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config.SECRET_KEY
@@ -54,8 +54,40 @@ def helsinki_time(value):
     if value.tzinfo is None:
         value = value.replace(tzinfo=timezone.utc)
 
-    local_time = value.astimezone(ZoneInfo("Europe/Helsinki"))
+    try:
+        local_tz = ZoneInfo("Europe/Helsinki")
+    except ZoneInfoNotFoundError:
+        local_tz = timezone(timedelta(hours=2))
+        if _is_helsinki_summer_time(value):
+            local_tz = timezone(timedelta(hours=3))
+
+    local_time = value.astimezone(local_tz)
     return local_time.strftime("%d.%m.%Y %H:%M")
+
+
+def _is_helsinki_summer_time(value):
+    value_utc = value.astimezone(timezone.utc)
+    year = value_utc.year
+
+    dst_start = _last_sunday(year, 3).replace(hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+    dst_end = _last_sunday(year, 10).replace(hour=1, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+
+    return dst_start <= value_utc < dst_end
+
+
+def _last_sunday(year, month):
+    day = 31
+    while True:
+        try:
+            candidate = datetime(year, month, day)
+            break
+        except ValueError:
+            day -= 1
+
+    while candidate.weekday() != 6:
+        candidate -= timedelta(days=1)
+
+    return candidate
 
 
 @app.route("/", methods=["GET"])
