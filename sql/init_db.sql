@@ -52,3 +52,15 @@ CREATE TABLE IF NOT EXISTS comment (
     FOREIGN KEY(parking_spot_id) REFERENCES parking_spot(id) ON DELETE CASCADE,
     FOREIGN KEY(author_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_parking_spot_owner_created_at
+    ON parking_spot(owner_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_parking_spot_created_at
+    ON parking_spot(created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_comment_spot_created_at
+    ON comment(parking_spot_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_item_classifications_classification_id
+    ON item_classifications(classification_id);
