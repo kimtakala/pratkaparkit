@@ -1,4 +1,4 @@
--- Init DB for Prätkä-parkit
+-- Schema for Prätkä-parkit
 
 PRAGMA foreign_keys = ON;
 
@@ -34,14 +34,6 @@ CREATE TABLE IF NOT EXISTS item_classifications (
     FOREIGN KEY(item_id) REFERENCES parking_spot(id) ON DELETE CASCADE,
     FOREIGN KEY(classification_id) REFERENCES classifications(id) ON DELETE CASCADE
 );
-
-INSERT OR IGNORE INTO classifications (name) VALUES
-    ('Asfaltti'),
-    ('Sorapinta'),
-    ('Maksuton'),
-    ('Maksullinen'),
-    ('Katettu'),
-    ('Lämmitetty');
 
 CREATE TABLE IF NOT EXISTS comment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

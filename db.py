@@ -3,7 +3,9 @@ import sqlite3
 
 from flask import current_app, g
 
-SCHEMA_PATH = Path(__file__).resolve().parent / "sql" / "init_db.sql"
+SQL_DIR = Path(__file__).resolve().parent / "sql"
+SCHEMA_PATH = SQL_DIR / "schema.sql"
+INIT_PATH = SQL_DIR / "init.sql"
 
 
 def get_connection():
@@ -36,6 +38,8 @@ def execute(sql, params=()):
 def init_schema():
     with open(SCHEMA_PATH, encoding="utf-8") as schema_file:
         get_connection().executescript(schema_file.read())
+    with open(INIT_PATH, encoding="utf-8") as init_file:
+        get_connection().executescript(init_file.read())
     get_connection().commit()
 
 
