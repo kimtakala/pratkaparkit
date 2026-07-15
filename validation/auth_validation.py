@@ -8,6 +8,7 @@ def validate_register_form(form):
         errors.append("Salasanan pitää olla vähintään 4 merkkiä pitkä.")
     return errors
 
+
 def validate_login_form(form):
     errors = []
     username = form.get("username", "").strip()

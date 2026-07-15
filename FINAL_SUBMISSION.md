@@ -24,17 +24,17 @@ python -m unittest discover -s tests
 
 ## Rubric map
 
-| Requirement | Evidence | Notes |
-|---|---|---|
-| User auth | `app.py`, `users.py`, `tests/test_auth_flow.py` | Register, login, logout |
-| Spot CRUD | `app.py`, `items.py`, `tests/test_core_flow.py` | Create and view flow covered |
-| Search | `app.py`, `items.py`, `tests/test_core_flow.py` | Query by title verified and bbox handled |
-| User profile | `app.py`, `users.py`, `templates/user_profile.html` | Profile page and items list |
-| Classifications | `items.py`, `sql/init_db.sql` | Many-to-many classification table |
-| Comments | `app.py`, `comments.py`, `tests/test_core_flow.py` | Comment posting and display |
-| Validation | `validation/`, `tests/test_validation_feedback.py` | Multiple errors and preserved input |
-| UI/accessibility | `templates/layout.html`, `templates/`, `static/main.css` | Labels, alt text, line breaks |
-| Pylint | `PYLINT_REPORT.md` | Final-report rationale included |
+| Requirement      | Evidence                                                 | Notes                                    |
+| ---------------- | -------------------------------------------------------- | ---------------------------------------- |
+| User auth        | `app.py`, `users.py`, `tests/test_auth_flow.py`          | Register, login, logout                  |
+| Spot CRUD        | `app.py`, `items.py`, `tests/test_core_flow.py`          | Create and view flow covered             |
+| Search           | `app.py`, `items.py`, `tests/test_core_flow.py`          | Query by title verified and bbox handled |
+| User profile     | `app.py`, `users.py`, `templates/user_profile.html`      | Profile page and items list              |
+| Classifications  | `items.py`, `sql/init_db.sql`                            | Many-to-many classification table        |
+| Comments         | `app.py`, `comments.py`, `tests/test_core_flow.py`       | Comment posting and display              |
+| Validation       | `validation/`, `tests/test_validation_feedback.py`       | Multiple errors and preserved input      |
+| UI/accessibility | `templates/layout.html`, `templates/`, `static/main.css` | Labels, alt text, line breaks            |
+| Pylint           | `PYLINT_REPORT.md`                                       | Final-report rationale included          |
 
 ## Notes
 

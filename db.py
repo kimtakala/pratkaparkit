@@ -1,8 +1,9 @@
 from pathlib import Path
 import sqlite3
-from flask import g, current_app
 
-SCHEMA_PATH = Path(__file__).resolve().parent.parent / "sql" / "init_db.sql"
+from flask import current_app, g
+
+SCHEMA_PATH = Path(__file__).resolve().parent / "sql" / "init_db.sql"
 
 
 def get_connection():

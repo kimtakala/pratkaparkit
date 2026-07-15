@@ -9,4 +9,7 @@ def get_comments_for_spot(spot_id):
 
 
 def add_comment(spot_id, author_id, text):
-    return execute("INSERT INTO comment (parking_spot_id, author_id, text) VALUES (?, ?, ?)", (spot_id, author_id, text))
+    return execute(
+        "INSERT INTO comment (parking_spot_id, author_id, text) VALUES (?, ?, ?)",
+        (spot_id, author_id, text),
+    )
