@@ -5,9 +5,9 @@ import sqlite3
 
 from flask import current_app, g
 
-SQL_DIR = Path(__file__).resolve().parent / "sql"
-SCHEMA_PATH = SQL_DIR / "schema.sql"
-INIT_PATH = SQL_DIR / "init.sql"
+ROOT_DIR = Path(__file__).resolve().parent
+SCHEMA_PATH = ROOT_DIR / "schema.sql"
+INIT_PATH = ROOT_DIR / "init.sql"
 
 
 def get_connection():

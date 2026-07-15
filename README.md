@@ -71,8 +71,8 @@ pip install -r requirements.txt
 5. Alusta tietokanta
 
 ```bash
-sqlite3 database.db < sql/schema.sql
-sqlite3 database.db < sql/init.sql
+sqlite3 database.db < schema.sql
+sqlite3 database.db < init.sql
 ```
 
 6. Käynnistä sovellus
@@ -94,13 +94,13 @@ flask run
 - `db.py`: tietokanta-apufunktiot ja yhteys SQLiteen
 - `users.py`, `items.py`, `comments.py`: liiketoimintalogiikka
 - `validation/`: lomakevalidoinnit
-- `security/`: kirjautumisen ja CSRF:n apufunktiot
-- `errors/`: virheenkäsittely
+- `session_security.py`: kirjautumisen ja CSRF:n apufunktiot
+- `handlers.py`: virheenkäsittely
 - `geo_helpers.py`: OpenStreetMapiin liittyvät apufunktiot
 - `templates/`: Jinja2-sivupohjat, pohjana `layout.html`
 - `static/main.css`: oma responsiivinen tyylitiedosto
-- `sql/schema.sql`: tietokannan skeema
-- `sql/init.sql`: alkudata ja luokittelut
+- `schema.sql`: tietokannan skeema
+- `init.sql`: alkudata ja luokittelut
 
 ## Testaus ja tarkistus
 
@@ -122,7 +122,7 @@ Sovellukselle on mukana erillinen `seed.py`-tiedosto, jolla voi luoda suuren tes
 python seed.py
 ```
 
-Suurta aineistoa varten sovellus käyttää sivutusta listauksessa ja haussa sekä indeksejä tietokannassa (`sql/schema.sql`).
+Suurta aineistoa varten sovellus käyttää sivutusta listauksessa ja haussa sekä indeksejä tietokannassa (`schema.sql`).
 
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 

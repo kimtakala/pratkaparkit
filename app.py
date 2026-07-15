@@ -22,8 +22,8 @@ import db
 import geo_helpers
 import items
 import users
-from errors.handlers import register_error_handlers
-from security.session_security import (
+from handlers import register_error_handlers
+from session_security import (
     current_user_id,
     generate_csrf_token,
     require_login,
