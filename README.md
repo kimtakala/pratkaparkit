@@ -114,6 +114,16 @@ Testit kattavat kirjautumisen, validointivirheet, parkkipaikan luonnin, kommento
 
 Sovelluksen lopullinen tila on testattu myös Pylintillä, ja raportti löytyy tiedostosta `PYLINT_REPORT.md`.
 
+## Suuren tietomäärän testi
+
+Sovellukselle on mukana erillinen `seed.py`-tiedosto, jolla voi luoda suuren testiaineiston tietokantaan. Se lisää käyttäjiä ja noin tuhat parkkipaikkaa, jotta sivutusta ja indeksejä voi testata käytännössä.
+
+```bash
+python seed.py
+```
+
+Suurta aineistoa varten sovellus käyttää sivutusta listauksessa ja haussa sekä indeksejä tietokannassa (`sql/schema.sql`).
+
 ## Koordinaattien lisääminen (ohje käyttäjälle)
 
 Jos haluat lisätä tarkan sijainnin, avaa OpenStreetMap (https://www.openstreetmap.org), etsi sijainti ja käytä Share → Permalink tai kopioi koordinaatit (muoto `lat,lon`) ja liitä ne lomakkeeseen.
