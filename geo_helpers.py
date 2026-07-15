@@ -1,7 +1,7 @@
 """Helpers for geolocation and OpenStreetMap tile preview using only standard library."""
 
-import math
 import json
+import math
 import urllib.parse
 import urllib.request
 

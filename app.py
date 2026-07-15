@@ -25,7 +25,7 @@ from werkzeug.security import check_password_hash
 from validation.auth_validation import validate_register_form, validate_login_form
 from validation.spot_validation import validate_spot_form
 from validation.comment_validation import validate_comment_form
-import external.geo_helpers as geo_helpers
+import geo_helpers
 from markupsafe import Markup, escape
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
