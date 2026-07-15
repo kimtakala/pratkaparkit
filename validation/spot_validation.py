@@ -50,16 +50,16 @@ def _parse_coordinate(raw_value, axis):
 def validate_lat_lon(lat_raw, lon_raw):
     lat, lat_err = _parse_coordinate(lat_raw, "lat")
     if lat_err:
-        return None, None, lat_err
+        return None, None, f"Leveysaste: {lat_err}"
 
     lon, lon_err = _parse_coordinate(lon_raw, "lon")
     if lon_err:
-        return None, None, lon_err
+        return None, None, f"Pituusaste: {lon_err}"
 
     if not (59.0 <= lat <= 70.5):
-        return None, None, "Vain Suomen koordinaatit sallittu (lat 59.0 ... 70.5)."
+        return None, None, "Leveysasteen pitää olla välillä 59.0 ... 70.5."
     if not (18.5 <= lon <= 32.0):
-        return None, None, "Vain Suomen koordinaatit sallittu (lon 18.5 ... 32.0)."
+        return None, None, "Pituusasteen pitää olla välillä 18.5 ... 32.0."
     return lat, lon, None
 
 
@@ -67,7 +67,7 @@ def validate_spot_form(form):
     errors = []
     title = form.get("title", "").strip()
     if not title:
-        errors.append("Otsikko puuttuu")
+        errors.append("Otsikko puuttuu.")
 
     lat, lon, err = validate_lat_lon(form.get("lat"), form.get("lon"))
     if err:

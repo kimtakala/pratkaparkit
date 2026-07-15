@@ -55,8 +55,8 @@ class ValidationFeedbackTestCase(unittest.TestCase):
             },
         )
         html = response.get_data(as_text=True)
-        self.assertIn("Käyttäjänimi liian lyhyt", html)
-        self.assertIn("Salasana liian lyhyt", html)
+        self.assertIn("Käyttäjätunnuksen pitää olla vähintään 3 merkkiä pitkä.", html)
+        self.assertIn("Salasanan pitää olla vähintään 4 merkkiä pitkä.", html)
         self.assertIn('value="ab"', html)
 
     def test_spot_form_shows_multiple_errors_and_keeps_input(self):
@@ -77,8 +77,8 @@ class ValidationFeedbackTestCase(unittest.TestCase):
             },
         )
         html = response.get_data(as_text=True)
-        self.assertIn("Otsikko puuttuu", html)
-        self.assertIn("Koordinaatti ei ole kelvollisessa muodossa.", html)
+        self.assertIn("Otsikko puuttuu.", html)
+        self.assertIn("Leveysaste: Koordinaatti ei ole kelvollisessa muodossa.", html)
         self.assertIn("Test description", html)
         self.assertIn("Test Address", html)
 

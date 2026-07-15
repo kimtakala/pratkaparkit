@@ -333,33 +333,6 @@ def search():
     max_lon = request.args.get("max_lon", "").strip()
     bbox_error = None
 
-    sql = """
-        SELECT
-            s.id,
-            s.owner_id,
-            s.title,
-            s.description,
-            s.lat,
-            s.lon,
-            s.address,
-            s.tags,
-            s.created_at,
-            u.username AS owner_name,
-            COALESCE(GROUP_CONCAT(c.name, ', '), '') AS classification_names
-        FROM parking_spot s
-        JOIN users u ON s.owner_id = u.id
-        LEFT JOIN item_classifications ic ON s.id = ic.item_id
-        LEFT JOIN classifications c ON ic.classification_id = c.id
-        WHERE 1=1
-        GROUP BY s.id
-    """
-    params = []
-
-    if query:
-        sql += " AND (s.title LIKE ? OR s.description LIKE ? OR s.address LIKE ? OR s.tags LIKE ?)"
-        like_q = f"%{query}%"
-        params.extend([like_q, like_q, like_q, like_q])
-
     bbox_values = [min_lat, max_lat, min_lon, max_lon]
     if any(bbox_values) and not all(bbox_values):
         bbox_error = "Täytä kaikki koordinaattikentät tai jätä ne kaikki tyhjiksi."
@@ -373,14 +346,12 @@ def search():
                 bbox_error = (
                     "Min-arvon pitää olla pienempi tai yhtä suuri kuin max-arvon."
                 )
-            else:
-                sql += " AND s.lat BETWEEN ? AND ? AND s.lon BETWEEN ? AND ?"
-                params.extend([min_lat_f, max_lat_f, min_lon_f, max_lon_f])
         except ValueError:
             bbox_error = "Koordinaattien pitää olla numeroita."
 
-    sql += " ORDER BY s.created_at DESC"
-    spots = db.query_all(sql, params)
+    spots = []
+    if not bbox_error:
+        spots = items.search_spots(query, min_lat, max_lat, min_lon, max_lon)
 
     return render_template(
         "search.html",
