@@ -88,10 +88,13 @@ flask run
 ## Sovelluksen rakenne
 
 - `app.py`: kaikki reitit, template-filtterit ja sovelluksen alustaminen
-- `db/__init__.py`: tietokanta-apufunktiot
+- `db/`: tietokanta-apufunktiot ja yhteys SQLiteen
 - `users.py`, `items.py`, `comments.py`: liiketoimintalogiikka
 - `validation/`: lomakevalidoinnit
-- `templates/`: Jinja2-sivupohjat
+- `security/`: kirjautumisen ja CSRF:n apufunktiot
+- `errors/`: virheenkäsittely
+- `external/`: OpenStreetMapiin liittyvät apufunktiot
+- `templates/`: Jinja2-sivupohjat, pohjana `layout.html`
 - `static/main.css`: oma responsiivinen tyylitiedosto
 - `sql/init_db.sql`: tietokannan alustus
 

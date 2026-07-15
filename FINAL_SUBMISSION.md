@@ -6,6 +6,7 @@
 - CSRF protection and password hashing
 - Custom HTML/CSS UI with labels, alt text, and preserved line breaks
 - Automated tests in `tests/`
+- The current layout uses `app.py`, `db/`, `users.py`, `items.py`, `comments.py`, `validation/`, `security/`, `errors/`, `templates/layout.html`, and `external/`
 
 ## How to run
 
@@ -27,12 +28,13 @@ python -m unittest discover -s tests
 |---|---|---|
 | User auth | `app.py`, `users.py`, `tests/test_auth_flow.py` | Register, login, logout |
 | Spot CRUD | `app.py`, `items.py`, `tests/test_core_flow.py` | Create and view flow covered |
-| Search | `app.py`, `tests/test_core_flow.py` | Query by title verified |
+| Search | `app.py`, `items.py`, `tests/test_core_flow.py` | Query by title verified and bbox handled |
 | User profile | `app.py`, `users.py`, `templates/user_profile.html` | Profile page and items list |
 | Classifications | `items.py`, `sql/init_db.sql` | Many-to-many classification table |
 | Comments | `app.py`, `comments.py`, `tests/test_core_flow.py` | Comment posting and display |
 | Validation | `validation/`, `tests/test_validation_feedback.py` | Multiple errors and preserved input |
-| UI/accessibility | `templates/`, `static/main.css` | Labels, alt text, line breaks |
+| UI/accessibility | `templates/layout.html`, `templates/`, `static/main.css` | Labels, alt text, line breaks |
+| Pylint | `PYLINT_REPORT.md` | Final-report rationale included |
 
 ## Notes
 
