@@ -1,1 +1,2 @@
 Flask
+tzdata; platform_system == "Windows"

@@ -59,6 +59,8 @@ python --version
 
 Jos `python --version` ei näytä vähintään versiota 3.10, luo virtuaaliympäristö uudelleen oikealla Python-komennolla.
 
+Windowsilla tarvitset myös `tzdata`-paketin, jotta `zoneinfo` löytää `Europe/Helsinki`-aikavyöhykkeen.
+
 4. Asenna riippuvuudet
 
 ```bash
