@@ -1,3 +1,5 @@
+"""Create demo users and parking spots for large-data testing."""
+
 import random
 import string
 import uuid
@@ -11,11 +13,15 @@ import users
 
 
 def _random_text(prefix, length=8):
+    """Return a short random text value with the given prefix."""
+
     suffix = "".join(random.choices(string.ascii_lowercase, k=length))
     return f"{prefix} {suffix}"
 
 
 def _create_demo_user(index):
+    """Create and return one demo user."""
+
     username = f"seed_user_{index:04d}_{uuid.uuid4().hex[:8]}"
     password = "seed1234"
     users.create_user(username, password)
@@ -23,6 +29,8 @@ def _create_demo_user(index):
 
 
 def _create_demo_spot(owner_id, index):
+    """Create one demo parking spot for the given owner."""
+
     title = _random_text(f"Seed Spot {index:04d}", 6)
     description = "Generated for large-data testing."
     lat = 60.1699 + random.uniform(-0.25, 0.25)
@@ -32,17 +40,21 @@ def _create_demo_spot(owner_id, index):
     classification_ids = [1] if index % 2 == 0 else [2]
     items.create_spot(
         owner_id,
-        title,
-        description,
-        lat,
-        lon,
-        address,
-        tags,
+        {
+            "title": title,
+            "description": description,
+            "lat": lat,
+            "lon": lon,
+            "address": address,
+            "tags": tags,
+        },
         classification_ids,
     )
 
 
 def main(user_count=20, spot_count=1000):
+    """Populate the database with demo users and spots."""
+
     app = Flask(__name__)
     app.config["SECRET_KEY"] = config.SECRET_KEY
     app.config["DATABASE"] = config.DATABASE_PATH

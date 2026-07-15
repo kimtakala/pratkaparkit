@@ -1,25 +1,37 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-from db import query_one, query_all, execute
+"""Database helpers for users and profile data."""
+
+from werkzeug.security import generate_password_hash
+
+from db import execute, query_all, query_one
 
 
 def create_user(username, password):
-    pass_hash = generate_password_hash(password)
+    """Create a user account with a hashed password."""
+
+    password_hash = generate_password_hash(password)
     execute(
-        "INSERT INTO users (username, password) VALUES (?, ?)", (username, pass_hash)
+        "INSERT INTO users (username, password) VALUES (?, ?)",
+        (username, password_hash),
     )
 
 
 def get_user_by_username(username):
+    """Return one user row by username."""
+
     return query_one(
         "SELECT id, username, password FROM users WHERE username = ?", (username,)
     )
 
 
 def get_user_by_id(user_id):
+    """Return one user row by ID."""
+
     return query_one("SELECT id, username FROM users WHERE id = ?", (user_id,))
 
 
 def get_user_stats(user_id):
+    """Return profile statistics for one user."""
+
     return query_one(
         """
         SELECT
@@ -35,6 +47,8 @@ def get_user_stats(user_id):
 
 
 def get_user_items(user_id, limit=None, offset=0):
+    """Return parking spots created by one user."""
+
     sql = """
         SELECT
             id,

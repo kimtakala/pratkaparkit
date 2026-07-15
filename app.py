@@ -1,34 +1,37 @@
+"""Flask application entry point for the parking spot app."""
+
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
 from flask import (
     Flask,
+    abort,
+    flash,
+    redirect,
     render_template,
     request,
-    redirect,
-    url_for,
-    flash,
     session,
-    abort,
+    url_for,
 )
+from markupsafe import Markup, escape
+from werkzeug.security import check_password_hash
 
-from errors.handlers import register_error_handlers
+import comments
 import config
 import db
-import users
-import items
-import comments
-from security.session_security import (
-    require_login,
-    generate_csrf_token,
-    verify_csrf_token,
-    current_user_id,
-)
-from werkzeug.security import check_password_hash
-from validation.auth_validation import validate_register_form, validate_login_form
-from validation.spot_validation import validate_spot_form
-from validation.comment_validation import validate_comment_form
 import geo_helpers
-from markupsafe import Markup, escape
-from datetime import datetime, timezone, timedelta
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import items
+import users
+from errors.handlers import register_error_handlers
+from security.session_security import (
+    current_user_id,
+    generate_csrf_token,
+    require_login,
+    verify_csrf_token,
+)
+from validation.auth_validation import validate_login_form, validate_register_form
+from validation.comment_validation import validate_comment_form
+from validation.spot_validation import validate_spot_form
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config.SECRET_KEY
@@ -39,12 +42,16 @@ db.init_app(app)
 
 @app.template_filter()
 def show_lines(content):
+    """Render newlines as HTML line breaks in escaped content."""
+
     content = str(escape(content))
     return Markup(content.replace("\n", "<br />"))
 
 
 @app.template_filter()
 def helsinki_time(value):
+    """Format timestamps in the Helsinki time zone."""
+
     if value is None or value == "":
         return ""
 
@@ -66,6 +73,8 @@ def helsinki_time(value):
 
 
 def _is_helsinki_summer_time(value):
+    """Return True when the given UTC timestamp is in Finnish DST."""
+
     value_utc = value.astimezone(timezone.utc)
     year = value_utc.year
 
@@ -80,6 +89,8 @@ def _is_helsinki_summer_time(value):
 
 
 def _last_sunday(year, month):
+    """Return the date of the last Sunday for a given month."""
+
     day = 31
     while True:
         try:
@@ -96,6 +107,8 @@ def _last_sunday(year, month):
 
 @app.route("/", methods=["GET"])
 def index():
+    """Render the front page with paginated parking spots."""
+
     page = request.args.get("page", default=1, type=int) or 1
     page_size = 5
     offset = (page - 1) * page_size
@@ -111,6 +124,8 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """Handle user registration."""
+
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
@@ -140,6 +155,8 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Handle user login."""
+
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
@@ -168,6 +185,8 @@ def login():
 
 @app.route("/logout", methods=["POST"])
 def logout():
+    """Log the current user out."""
+
     verify_csrf_token(request.form.get("csrf_token"))
     session.clear()
     flash("Olet kirjautunut ulos.", "success")
@@ -177,6 +196,8 @@ def logout():
 @app.route("/spots/new", methods=["GET", "POST"])
 @require_login
 def create_spot():
+    """Create a new parking spot."""
+
     csrf_token = generate_csrf_token()
     if request.method == "POST":
         verify_csrf_token(request.form.get("csrf_token"))
@@ -197,16 +218,7 @@ def create_spot():
                 selected_classification_ids=selected_classification_ids,
             )
 
-        items.create_spot(
-            current_user_id(),
-            data["title"],
-            data["description"],
-            data["lat"],
-            data["lon"],
-            data["address"],
-            data["tags"],
-            selected_classification_ids,
-        )
+        items.create_spot(current_user_id(), data, selected_classification_ids)
         flash("Parkkipaikka lisätty.", "success")
         return redirect(url_for("index"))
 
@@ -221,6 +233,8 @@ def create_spot():
 
 @app.route("/spots/<int:spot_id>", methods=["GET"])
 def spot_detail(spot_id):
+    """Show one parking spot and its comments."""
+
     spot = items.get_spot(spot_id)
     if not spot:
         abort(404)
@@ -231,8 +245,8 @@ def spot_detail(spot_id):
     tile_url = None
     try:
         tile_url = geo_helpers.tile_url(spot["lat"], spot["lon"], 15)
-    except Exception:
-        pass
+    except (TypeError, ValueError):
+        tile_url = None
 
     return render_template(
         "spot_detail.html",
@@ -247,6 +261,8 @@ def spot_detail(spot_id):
 @app.route("/spots/<int:spot_id>/edit", methods=["GET", "POST"])
 @require_login
 def edit_spot(spot_id):
+    """Edit an existing parking spot owned by the current user."""
+
     spot = items.get_spot(spot_id)
     if not spot:
         abort(404)
@@ -273,16 +289,7 @@ def edit_spot(spot_id):
                 selected_classification_ids=selected_classification_ids,
             )
 
-        items.update_spot(
-            spot_id,
-            data["title"],
-            data["description"],
-            data["lat"],
-            data["lon"],
-            data["address"],
-            data["tags"],
-            selected_classification_ids,
-        )
+        items.update_spot(spot_id, data, selected_classification_ids)
         flash("Päivitetty.", "success")
         return redirect(url_for("spot_detail", spot_id=spot_id))
 
@@ -298,6 +305,8 @@ def edit_spot(spot_id):
 @app.route("/spots/<int:spot_id>/delete", methods=["POST"])
 @require_login
 def delete_spot(spot_id):
+    """Delete a parking spot owned by the current user."""
+
     verify_csrf_token(request.form.get("csrf_token"))
     spot = items.get_spot(spot_id)
     if not spot:
@@ -313,6 +322,8 @@ def delete_spot(spot_id):
 @app.route("/spots/<int:spot_id>/comments/new", methods=["POST"])
 @require_login
 def create_comment(spot_id):
+    """Create a comment for a parking spot."""
+
     verify_csrf_token(request.form.get("csrf_token"))
     errors = validate_comment_form(request.form)
     if errors:
@@ -326,6 +337,8 @@ def create_comment(spot_id):
 
 @app.route("/search", methods=["GET"])
 def search():
+    """Search parking spots by text and optional bounding box."""
+
     query = request.args.get("q", "").strip()
     min_lat = request.args.get("min_lat", "").strip()
     max_lat = request.args.get("max_lat", "").strip()
@@ -367,6 +380,8 @@ def search():
 
 @app.route("/users/<int:user_id>", methods=["GET"])
 def user_profile(user_id):
+    """Show a user's profile, stats, and owned spots."""
+
     user = users.get_user_stats(user_id)
     if not user:
         abort(404)

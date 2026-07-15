@@ -1,4 +1,4 @@
-"""Helpers for geolocation and OpenStreetMap tile preview using only standard library."""
+"""Helpers for geolocation and OpenStreetMap tile preview."""
 
 import json
 import math

@@ -1,4 +1,9 @@
+"""Validation helpers for authentication forms."""
+
+
 def validate_register_form(form):
+    """Validate the registration form and return a list of errors."""
+
     errors = []
     username = form.get("username", "").strip()
     password = form.get("password", "")
@@ -10,6 +15,8 @@ def validate_register_form(form):
 
 
 def validate_login_form(form):
+    """Validate the login form and return a list of errors."""
+
     errors = []
     username = form.get("username", "").strip()
     password = form.get("password", "")

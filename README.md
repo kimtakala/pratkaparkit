@@ -112,7 +112,7 @@ python -m unittest discover -s tests
 
 Testit kattavat kirjautumisen, validointivirheet, parkkipaikan luonnin, kommentoinnin, haun ja käyttäjäsivun peruspolut.
 
-Sovelluksen lopullinen tila on testattu myös Pylintillä, ja raportti löytyy tiedostosta `PYLINT_REPORT.md`.
+Sovelluksen lopullinen tila on testattu myös Pylintillä, ja lopullinen tulos on 10.00/10. Raportti löytyy tiedostosta `PYLINT_REPORT.md`.
 
 ## Suuren tietomäärän testi
 
