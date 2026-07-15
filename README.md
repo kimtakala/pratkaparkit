@@ -69,7 +69,8 @@ pip install -r requirements.txt
 5. Alusta tietokanta
 
 ```bash
-sqlite3 database.db < sql/init_db.sql
+sqlite3 database.db < sql/schema.sql
+sqlite3 database.db < sql/init.sql
 ```
 
 6. Käynnistä sovellus
@@ -88,15 +89,16 @@ flask run
 ## Sovelluksen rakenne
 
 - `app.py`: kaikki reitit, template-filtterit ja sovelluksen alustaminen
-- `db/`: tietokanta-apufunktiot ja yhteys SQLiteen
+- `db.py`: tietokanta-apufunktiot ja yhteys SQLiteen
 - `users.py`, `items.py`, `comments.py`: liiketoimintalogiikka
 - `validation/`: lomakevalidoinnit
 - `security/`: kirjautumisen ja CSRF:n apufunktiot
 - `errors/`: virheenkäsittely
-- `external/`: OpenStreetMapiin liittyvät apufunktiot
+- `geo_helpers.py`: OpenStreetMapiin liittyvät apufunktiot
 - `templates/`: Jinja2-sivupohjat, pohjana `layout.html`
 - `static/main.css`: oma responsiivinen tyylitiedosto
-- `sql/init_db.sql`: tietokannan alustus
+- `sql/schema.sql`: tietokannan skeema
+- `sql/init.sql`: alkudata ja luokittelut
 
 ## Testaus ja tarkistus
 

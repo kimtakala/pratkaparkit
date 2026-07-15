@@ -2,7 +2,7 @@
 
 Pylint score on the final application version: **7.80/10**
 
-This report covers the final application codebase, including `app.py`, `users.py`, `items.py`, `comments.py`, `db/__init__.py`, `config.py`, `validation/`, `security/`, and `errors/`.
+This report covers the final application codebase, including `app.py`, `users.py`, `items.py`, `comments.py`, `db.py`, `config.py`, `validation/`, `security/`, and `errors/`.
 
 ## Findings and decisions
 
@@ -27,7 +27,7 @@ This report covers the final application codebase, including `app.py`, `users.py
 
 - Long lines and missing docstrings: kept as-is for consistency with the rest of the app modules.
 
-### `db/__init__.py`
+### `db.py`
 
 - Missing docstrings: kept as-is because the functions are straightforward database helpers.
 - Framework-driven callback signature warnings: kept as-is because the teardown handler follows Flask’s required signature.
